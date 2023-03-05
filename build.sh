@@ -1,0 +1,4 @@
+cd out/build
+
+make
+
