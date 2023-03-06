@@ -44,12 +44,12 @@ int main(int argc, char** argv){
 //thread starts
 //	std::thread loading_bar(load_bar, num_of_files);
 	
-	Picture* frames = (Picture*)malloc(num_of_files * sizeof(Picture));
+	Picture* frames[num_of_files];
 
 	for(processed_images = 1; processed_images <= num_of_files; processed_images++){
 		std::stringstream ss;
 		ss << "../../resources/frame_" << processed_images << ".jpg";
-		frames[processed_images] = Picture(ss.str().c_str(), scale_down);
+		frames[processed_images] = new Picture(ss.str().c_str(), scale_down);
 	
 
 		//loading bar
@@ -76,19 +76,18 @@ int main(int argc, char** argv){
 	std::cout << "Images were processed\n";
 	
 	std::thread audio(play_audio);
-	int i = 0;
+	int i = 1; //because frames start at 1
 	while(i < num_of_files){
 		current_time = get_time();
 		delta_time = current_time - end_time;
 
 		if(delta_time > 1/FPS){
 			std::cout << "\e[1;1H\e[2J";
-			frames[i].print();
+			frames[i]->print();
 			end_time = get_time();
 			i++;
 		}
 	}
-	delete frames;
 	return 0;
 }
 

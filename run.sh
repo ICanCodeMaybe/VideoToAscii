@@ -16,9 +16,10 @@ if [ $3 -eq 0 ]
 	SCALE_DOWN=6	
 fi
 
-ffmpeg -i $PATH_TO_VIDEO -r 24 resources/frame_%d.jpg 1>&/dev/null #this redirects stdout to /dev/null, so nothing from ffmpeg gets printed
-#ffmpeg -i $1 -acodec pcm_s16le -f s16le -ac 1 -ar 48000 audio/audio.raw 1>&/dev/null
+rm audio/audio.mp3
 
+ffmpeg -i $PATH_TO_VIDEO -r 24 resources/frame_%d.jpg 1>&/dev/null #this redirects stdout to /dev/null, so nothing from ffmpeg gets printed
+ffmpeg -i $PATH_TO_VIDEO -q:a 0 -map a audio/audio.mp3 1>&/dev/null
 
 echo 'Frames were generated'
 #cd resources
